@@ -1,0 +1,38 @@
+{
+  "name": "flexa-core",
+  "version": "1.0.0",
+  "description": "The AI-powered foundation for conversational business applications",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "dev:sales": "next dev --port 3001",
+    "dev:proposals": "next dev --port 3002", 
+    "dev:onboarding": "next dev --port 3003",
+    "dev:projects": "next dev --port 3004",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "jest"
+  },
+  "keywords": ["ai", "business", "templates", "nextjs", "typescript", "solo-founder"],
+  "author": "Shawn Flexa Hormozi Sonnier",
+  "license": "MIT",
+  "dependencies": {
+    "next": "^14.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "@chakra-ui/react": "^2.8.0",
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "framer-motion": "^10.16.0",
+    "react-icons": "^4.12.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "eslint": "^8.0.0",
+    "eslint-config-next": "^14.0.0"
+  }
+}
