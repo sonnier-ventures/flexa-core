@@ -1,38 +1,105 @@
 {
-  "name": "flexa-core",
-  "version": "1.0.0",
-  "description": "The AI-powered foundation for conversational business applications",
-  "main": "index.js",
+  "name": "flexabrain-core",
+  "version": "2.0.0",
+  "private": true,
+  "description": "FlexaBrain Core - Self-hosted AI platform foundation",
   "scripts": {
-    "dev": "next dev",
-    "dev:sales": "next dev --port 3001",
-    "dev:proposals": "next dev --port 3002", 
-    "dev:onboarding": "next dev --port 3003",
-    "dev:projects": "next dev --port 3004",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "test": "jest"
+    "dev": "turbo run dev --parallel",
+    "build": "turbo run build",
+    "start": "turbo run start",
+    "test": "turbo run test",
+    "test:watch": "turbo run test:watch",
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
+    "format": "biome format --write .",
+    "type-check": "turbo run type-check",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "reset": "pnpm clean && pnpm install",
+    
+    "db:init": "cd apps/brain-server && pnpm db:init",
+    "db:migrate": "cd apps/brain-server && pnpm db:migrate",
+    "db:seed": "cd apps/brain-server && pnpm db:seed",
+    "db:reset": "cd apps/brain-server && pnpm db:reset",
+    "db:status": "cd apps/brain-server && pnpm db:status",
+    
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "docker:clean": "docker-compose down -v --rmi all",
+    
+    "k8s:deploy": "kubectl apply -f k8s/",
+    "k8s:delete": "kubectl delete -f k8s/",
+    "k8s:status": "kubectl get pods -l app=flexabrain",
+    
+    "ai:models": "ollama list",
+    "ai:pull": "ollama pull llama2:7b-chat && ollama pull mistral:7b-instruct && ollama pull codellama:7b-instruct",
+    "ai:status": "curl -s http://localhost:11434/api/tags",
+    
+    "logs": "tail -f logs/*.log",
+    "logs:api": "tail -f logs/api.log",
+    "logs:dashboard": "tail -f logs/dashboard.log",
+    "logs:ai": "tail -f logs/ai.log",
+    
+    "health": "curl -s http://localhost:8000/health && curl -s http://localhost:3000/api/health",
+    "status": "pnpm health && pnpm ai:status",
+    
+    "backup": "node scripts/backup.js",
+    "restore": "node scripts/restore.js",
+    
+    "precommit": "pnpm lint:fix && pnpm type-check && pnpm test",
+    "prepare": "husky install",
+    
+    "release": "changeset publish",
+    "version": "changeset version",
+    
+    "benchmark": "cd apps/brain-server && pnpm benchmark",
+    "perf": "cd apps/dashboard && pnpm perf",
+    
+    "docs": "turbo run docs",
+    "docs:serve": "cd docs && pnpm serve",
+    
+    "security": "audit-ci --config audit-ci.json",
+    "deps:update": "pnpm update --interactive --latest",
+    "deps:check": "npm-check-updates",
+    
+    "setup": "./scripts/setup.sh",
+    "verify": "./scripts/verify-install.sh",
+    "restart": "pnpm docker:down && pnpm docker:up",
+    "stop": "pnpm docker:down && pkill -f ollama"
   },
-  "keywords": ["ai", "business", "templates", "nextjs", "typescript", "solo-founder"],
-  "author": "Shawn Flexa Hormozi Sonnier",
-  "license": "MIT",
-  "dependencies": {
-    "next": "^14.0.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "@chakra-ui/react": "^2.8.0",
-    "@emotion/react": "^11.11.0",
-    "@emotion/styled": "^11.11.0",
-    "framer-motion": "^10.16.0",
-    "react-icons": "^4.12.0"
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=8.0.0"
   },
+  "packageManager": "pnpm@8.15.0",
   "devDependencies": {
-    "typescript": "^5.0.0",
-    "@types/node": "^20.0.0",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
-    "eslint": "^8.0.0",
-    "eslint-config-next": "^14.0.0"
-  }
+    "@biomejs/biome": "^1.5.0",
+    "@changesets/cli": "^2.27.0",
+    "audit-ci": "^6.6.1",
+    "husky": "^9.0.0",
+    "npm-check-updates": "^16.14.0",
+    "turbo": "^1.12.0",
+    "typescript": "^5.3.0"
+  },
+  "dependencies": {},
+  "keywords": [
+    "ai",
+    "self-hosted",
+    "machine-learning",
+    "dashboard",
+    "typescript",
+    "nextjs",
+    "ollama"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/flexabrain-core.git"
+  },
+  "license": "MIT",
+  "author": "FlexaAI Team"
 }
